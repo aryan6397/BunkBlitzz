@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BunkBlitz</title>
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+
+<body>
+<!--   
+    <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              
+              <a class="nav-link" href="/listings">Explore</a>
+              
+            </div>
+
+          <div class="navbar-nav  ms-auto">
+            <form class="d-flex" role="search">
+              <input 
+              class="form-control me-2 search-input"
+               type="search" placeholder="Search destinations" 
+               >
+              <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+            </form>
+          </div>
+
+            <div class="navbar-nav ms-auto">
+              <a class="nav-link" href="/listings/new">Add new Listing</a>
+              <% if(!currUser)  { %>
+              <a class="nav-link"  href="/signup"> <b>Sign up</b></a>
+              <a class="nav-link" href="/login"> <b>Log in</b></a>
+              <% } %> <% if(currUser) { %>
+              <a class="nav-link" href="/logout">Log out</a>
+            <% } %>
+            </div>
+          </div>
+        </div>
+      </nav> -->
+      <!--for flash using-->
+      <%- include("../includes/navbar.ejs") %>
+      <%- include("../includes/flash.ejs") %>
+    
+    <!-- <form method="GET" action="/listings/new">
+        <button>Create new Listing</button>
+    </form> -->
+<style>
+  #filters{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 2rem;
+    align-items: center;
+    
+  }
+
+  .filter{
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    opacity: 0.7;
+  }
+
+  .filter:hover{
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .filter-link{
+    text-decoration: none; 
+  color: inherit; 
+  cursor: pointer;
+  }
+
+  .tax-info{
+    display: none;
+  }
+
+  .tax-toggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3rem;
+    padding: 1rem;
+    margin-left: 3rem;
+    display: flex;
+    align-items: center;
+    
+  }
+
+  .btn-search{
+    background-color: #fe424d;
+    color: #fff;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+
+  }
+
+  .search-input{
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    font-size: 0.9rem;
+  }
+
+  .btn-search i{
+    display: inline;
+    margin-right: 0.5rem;
+  }
+
+  .btn-search:hover{
+    background-color: #fe424d;
+    color: #fff;
+  }
+</style>
+<div id="filters">
+  <a href="/listings" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-bed"></i></div>
+      <p> All</p>
+    </div>
+  </a>
+  <a href="/listings/filter/Rooms" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-bed"></i></div>
+      <p> Rooms </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/Farms" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-fire"></i></div>
+      <p> Farms </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/Cabins" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-bed"></i></div>
+      <p> Cabins </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/Office" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-fire"></i></div>
+      <p> Office </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/Caves" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-bed"></i></div>
+      <p> Caves </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/TreeHouses" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-fire"></i></div>
+      <p> TreeHouses </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/House" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-bed"></i></div>
+      <p> House </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/Industry" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-fire"></i></div>
+      <p> Industry </p>
+    </div>
+  </a>
+  
+  <a href="/listings/filter/Centers" class="filter-link">
+    <div class="filter">
+      <div> <i class="fa-solid fa-bed"></i></div>
+      <p> Centers </p>
+    </div>
+  </a>
+  
+             
+         
+              <div class="tax-toggle">
+                <div class="form-check-reverse form-switch">
+                  <input class="form-check-input"
+                   type="checkbox" role="switch"
+                    id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Display total after Taxes</label>
+                </div>
+              </div>
+    </div>
+     <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-3">
+      <% for(let listing of allListing) {%>
+        <!-- <a href="/listings/<%= listing._id %>"> -->
+        <div class="card col " >
+          <img 
+          src="<%= listing.image.url %>" 
+          class="card-img-top" style="height: 20rem;" alt="listing_image">
+          
+          <div class="card-body">
+           <b><h5 class="card-title"><%= listing.title %></h5></b> 
+            <p class="card-text">
+              <%= listing.title %> <br>
+              &#x20B9; <%=  listing.price.toLocaleString("en-IN") %> / night
+              <i class="tax-info"> &nbsp; &nbsp;+18% GST</i>
+              </p>
+            <a href="/listings/<%= listing._id %>" class="btn btn-primary add-btn">See Details</a>
+          </div>
+        </div>
+      <!-- </a> -->
+        <% } %>
+      
+     </div>
+
+    
+   <script>
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", ()=>{
+      let taxInfo = document.getElementsByClassName("tax-info");
+      for(info of taxInfo){
+        if (info.style.display != "inline") {
+          info.style.display = "inline";
+        } else{
+          info.style.display = "none";
+        }
+      }
+    })
+   </script>
+
+
+    <%- include("../includes/footer.ejs") %>
+</body>
+</html>

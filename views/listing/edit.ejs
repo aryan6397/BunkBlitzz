@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+      body{
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.txt-l{
+    margin-left: 2rem;
+    
+}
+.container{
+    flex: 1;
+}
+.navbar{
+    height: 5rem;
+    background-color: white;
+    
+}
+
+.fa-compass {
+     color: #fe424d;
+     font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+    
+}
+
+.f-info-brand,
+.f-info-links,
+.f-info-socials{
+    width: 100%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.f-info-socials i{
+    margin: 0.7rem;
+}
+
+.f-info {
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    background-color:#ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+
+}
+
+.card{
+    border: none !important;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
+    
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 90% !important;
+    object-fit: cover !important;
+    margin-left: 2rem;
+}
+
+.card-body{
+    padding: 0 !important;
+    margin-left: 2rem;
+    
+
+}
+
+.card-text p{
+      font-weight: 400 !important;
+}
+
+.card-title{
+    font-weight: 600;
+}
+
+.card-img-top:hover{
+    opacity: 0.6;
+    background-color: white;
+}
+
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+    color: white;
+
+}
+    </style>
+   
+</head>
+<body>
+  <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          
+          <a class="nav-link" href="/listings">Explore</a>
+          <a class="nav-link" href="/listings/new">Add new Listing</a>
+        
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="row">
+    <div class="col-8 offset-2">
+
+    
+    <h3>Edit your listing</h3>
+    <br>
+    <form method="POST"
+     action="/listings/<%= listing._id %>?_method=PUT" 
+     class="needs-validation" 
+      novalidate
+      enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="title" class="form-label font-weight-bold">Title</label>
+        <input type="text" name="listing[title]" value="<%= listing.title %>" class="form-control" required>
+
+        <div class="valid-feedback">
+          Title looks good!
+        </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label font-weight-bold">Description</label>
+      <input type="text" name="listing[description]" value="<%= listing.description %>" class="form-control" required>
+    
+      <div class="invalid-feedback">
+        Please enter a short description!
+      </div>
+    </div>
+
+    <div class="mb-3">
+     <b> Original listing image </b><br> <br>
+      <img src="<%= originalImageUrl%>" alt="">
+    </div>
+
+    
+    <div class="mb-3">
+      <label for="image" class="form-label font-weight-bold">Upload new image</label>
+      <input 
+      type="file" 
+      name="listing[image]"
+       value="<%= listing.image %>"
+        class="form-control"
+        />
+   
+    </div>
+    <div class="row mt-3">
+    <div class="mb-3 col-md-4">
+      <label for="price" class="form-label font-weight-bold">price</label>
+      <input type="number" name="listing[price]" value="<%= listing.price %>" class="form-control" required>
+    
+      <div class="invalid-feedback">
+        Please enter a valid price
+      </div>
+    </div>
+    
+    <div class="mb-3 col-md-8">
+      <label for="country" class="form-label font-weight-bold">Country</label>
+      <input type="text" name="listing[country]" value="<%= listing.country %>" class="form-control" required>
+ 
+      <div class="invalid-feedback">
+        Please enter a valid country name!
+      </div>
+    </div>
+    
+  </div>
+
+   <div class="mb-3">
+    <label for="location" class="form-label font-weight-bold">Location</label>
+    <input type="text" name="listing[location]" value="<%= listing.location %>" class="form-control" required>
+    
+    <div class="invalid-feedback">
+      Location should be valid
+    </div>
+   </div>
+
+   
+   
+    <button class=" btn btn-dark add-btn mt-3">Add</button>
+    </form>
+  </div>
+</div>
+    <%- include("../includes/footer.ejs") %>
+
+    <script>// Example starter JavaScript for disabling form submissions if there are invalid fields
+      (() => {
+          'use strict'
+        
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          const forms = document.querySelectorAll('.needs-validation')
+        
+          // Loop over them and prevent submission
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+        
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })()</script>
+</body>
+</html>

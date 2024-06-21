@@ -1,0 +1,239 @@
+<% ('/layouts/boilerplate') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+body{
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    }
+
+.txt-l{
+    margin-left: 2rem;
+    
+}
+.container{
+    flex: 1;
+}
+.navbar{
+    height: 5rem;
+    background-color: white;
+    
+}
+
+.fa-compass {
+     color: #fe424d;
+     font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+    
+}
+
+.f-info-brand,
+.f-info-links,
+.f-info-socials{
+    width: 100%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.f-info-socials i{
+    margin: 0.7rem;
+}
+
+.f-info {
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    background-color:#ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+
+}
+
+
+
+.card-text p{
+      font-weight: 400 !important;
+}
+
+.card-title{
+    font-weight: 600;
+}
+
+.card-img-top:hover{
+    opacity: 0.6;
+    background-color: white;
+}
+
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+
+}
+
+.show-img{
+    height: 30vh;
+}
+
+.btns{
+  display: flex;
+  
+  
+}
+
+.edit-btn{
+  background-color: #fe424d;
+}
+
+.show-card{
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#map{
+  height: 400px;
+  width: 80vh;
+}
+
+
+    </style>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+    
+</head>
+<body>
+  <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          
+          <a class="nav-link" href="/listings">Explore</a>
+          <a class="nav-link" href="/listings/new">Add new Listing</a>
+        
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="row mt-3">
+
+<div class="col-8 offset-4">
+ <h2><%= listing.title %> </h2>
+<div>
+    <div class="card col-6 show-card">
+      <img
+       src="<%= listing.image.url %>" 
+       class="card-img-top show-img"
+        alt="listing_image"
+        />
+      <div class="card-body">
+        <p class="card-text">
+          <b><%= listing.title %></b> <br>
+          <%= listing.description %> <br>
+          &#8377; <%= listing.price.toLocaleString("en-IN") %> <br>
+          <%= listing.location %> <br>
+          <%= listing.country %> <br>
+          <%= listing.category%>
+        </p>
+        
+      </div>
+    </div>
+  
+    <br>
+    <div class="btns">
+      <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark col-1 offset-2 edit-btn">Edit</a>
+  
+   
+      <form method="POST" action="/listings/<%= listing._id%>?_method=DELETE">
+        <button class="btn btn-dark offset-4">Delete</button>
+      </form>
+   
+   
+     
+</div>
+
+
+
+
+
+  
+</div>
+<div class="col-8 mb-3">
+  <h3>Where You'll be</h3>
+  <div id="map">
+      
+  </div>
+</div>
+    
+
+
+    <script>
+      // TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+	// https://account.mapbox.com
+  let mapToken = "pk.eyJ1IjoiYW1ydXRhMzAxIiwiYSI6ImNscml2aTNnMTBkbDUya28xMnVjaDI1MHUifQ.60Vrb0mE47aPmwOd2_RyOg";
+
+console.log(mapToken)
+mapboxgl.accessToken = mapToken;
+const map = new mapboxgl.Map({
+container: 'map', // container ID
+center: [77.8880, 29.8543], // starting position [lng, lat]
+zoom: 9 // starting zoom
+});
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+  
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+    </script>
+
+<%- include("../includes/footer.ejs") %>
+   
+</body>
+
+</html>
